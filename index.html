@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kemith-pkk</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --accent-color: #9333ea;
+      --background-color: #f3f3f3;
+    }
+
+    body {
+      background-color: var(--background-color);
+    }
+
+    /* Tombol dan Navigasi */
+    .nav-link.active {
+      border-bottom: 2px solid var(--primary-color);
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+    }
+
+    /* Animasi */
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    #scrollToTopBtn {
+      position: fixed;
+      bottom: 40px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1000;
+    }
+    #scrollToTopBtn.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #scrollToTopBtn.hide {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    #scrollToTopBtn:hover {
+      background-color: var(--accent-color);
+    }
+    /* Gaya Animasi Loading */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f3f3f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Spinner */
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3b82f6;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Animasi Spinner */
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .hero-image {
+      position: relative;
+      top: -0px;
+    }
+    /* Gaya Countdown */
+    .countdown-item {
+      background-color: #f3f3f3;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+    #birthdayImage {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #fffefe;
+      object-fit: cover;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      margin-top: -40px;
+    }
+    .birthday-card {
+      background: linear-gradient(135deg, #fcf7f7, #0c09bd);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    /* Animasi Hover pada Link Navigasi */
+    .nav-link {
+      position: relative;
+      color: #0f0f0f;
+      transition: color 0.3s ease;
+    }
+
+    /* Efek underline animasi */
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0;
+      height: 2px;
+      background-color: #161515;
+      transition: width 0.3s ease;
+    }
+
+    /* Saat dihover, warna berubah dan garis bawah muncul */
+    .nav-link:hover {
+      color: #1805c5;
+      transform: translateY(-2px);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .transparent-bg {
+      background-color: rgba(255, 255, 255, 0.8);
+      transition: background-color 0.3s ease; /* Transisi */
+    }
+    .footer {
+      position: relative;
+      background: linear-gradient(180deg, #4c4cff 0%, #00bfff 100%);
+      color: #ffffff;
+      padding: 6rem 0 2rem;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4rem;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      flex-basis: 40%;
+      position: relative;
+    }
+
+    .brand h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -1px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .brand h2::after {
+      content: "";
+      position: absolute;
+      width: 40%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff3366, #00ffff);
+      bottom: -8px;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .brand p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #e0e0e0;
+      max-width: 400px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .navigation {
+      display: flex;
+      flex-basis: 50%;
+      justify-content: space-between;
+    }
+
+    .nav-group {
+      position: relative;
+    }
+
+    .nav-group h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1.8rem;
+      color: #ffffff;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-group h3::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 3px;
+      background: #ff3366;
+      bottom: -8px;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      display: inline-block;
+      position: relative;
+      padding-left: 0;
+    }
+
+    .nav-links a::before {
+      content: "→";
+      position: absolute;
+      left: -20px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+      padding-left: 20px;
+    }
+
+    .nav-links a:hover::before {
+      opacity: 1;
+      left: 0;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+    }
+
+    .social-links a {
+      color: #e0e0e0;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .social-links a::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #ff3366, #00ffff);
+      opacity: 0;
+      transition: all 0.3s ease;
+      transform: scale(0.5);
+      border-radius: 50%;
+    }
+
+    .social-links a:hover {
+      color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .social-links a:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .social-links a i {
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-bottom p {
+      color: #c0c0c0;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom p:hover {
+      color: #ffffff;
+    }
+
+    .blur-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.12;
+      transition: all 5s ease;
+    }
+
+    .blur-circle-1 {
+      background: #ff3366;
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      left: -100px;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .blur-circle-2 {
+      background: #00ffff;
+      width: 350px;
+      height: 350px;
+      bottom: -100px;
+      right: -100px;
+      animation: float 12s ease-in-out infinite reverse;
+    }
+
+    .blur-circle-3 {
+      background: #00ff66;
+      width: 250px;
+      height: 250px;
+      bottom: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(30px, 30px);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: translate(-50%, 50%) scale(1);
+        opacity: 0.12;
+      }
+      50% {
+        transform: translate(-50%, 50%) scale(1.2);
+        opacity: 0.15;
+      }
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.03)
+      );
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+
+    @media (max-width: 1024px) {
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
+      }
+
+      .brand {
+        text-align: center;
+        flex-basis: auto;
+      }
+
+      .brand p {
+        margin: 0 auto;
+      }
+
+      .brand h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .navigation {
+        flex-basis: auto;
+        width: 100%;
+        justify-content: space-around;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
+      }
+
+      .nav-group {
+        flex-basis: 45%;
+      }
+
+      .footer {
+        padding: 4rem 0 2rem;
+      }
+
+      .blur-circle {
+        opacity: 0.08;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navigation {
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+      }
+
+      .nav-group {
+        flex-basis: auto;
+        text-align: center;
+      }
+
+      .nav-group h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .brand h2 {
+        font-size: 2rem;
+      }
+
+      .nav-links a:hover {
+        padding-left: 0;
+      }
+
+      .nav-links a::before {
+        display: none;
+      }
+    }
+
+    .container {
+      position: relative;
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .container:hover::after {
+      opacity: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    /* Toggle Menu Button */
+    .toggle-btn {
+      display: block;
+      padding: 8px;
+      border-radius: 4px;
+      background-color: transparent;
+      transition: background-color 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(248, 248, 248, 0.5);
+    }
+
+    .toggle-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #ff8c00;
+    }
+
+    /* Mobile Menu */
+    #mobileMenu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 40;
+      padding: 80px 20px;
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    }
+
+    #mobileMenu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    #mobileMenu .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #mobileMenu a {
+      display: block;
+      padding: 12px 20px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #070707;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #mobileMenu a:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #2934ce;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: -1;
+    }
+
+    #mobileMenu a:hover {
+      color: #fff;
+    }
+
+    #mobileMenu a:hover:before {
+      transform: translateX(0);
+    }
+    @media (min-width: 768px) {
+      .toggle-btn {
+        display: none !important;
+      }
+    }
+  </style>
+  <body class="bg-orange-50">
+    <!-- Animasi Loading -->
+    <div id="loadingScreen">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <div class="text-2xl font-bold text-orange-600">KEMITH</div>
+          <div class="hidden md:flex space-x-6">
+            <a href="#home" class="nav-link hover:text-orange-500">Beranda</a>
+            <a href="#anggota" class="nav-link hover:text-orange-500"
+              >Anggota</a
+            >
+            <a href="#gallery" class="nav-link hover:text-orange-500">Galeri</a>
+            <a href="#countdown" class="nav-link hover:text-orange-500"
+              >Countdown</a
+            >
+          </div>
+
+          <!-- Tombol Toggle Menu Mobile -->
+          <button class="toggle-btn md:hidden" onclick="toggleMenu()">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-16 6h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Tombol Scroll ke Atas -->
+    <button id="scrollToTopBtn" onclick="scrollToTop()">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 z-40 overflow-y-auto">
+      <div class="container mx-auto px-4">
+        <a href="#home" class="block py-3 hover:text-orange-500">Beranda</a>
+        <a href="#anggota" class="block py-3 hover:text-orange-500">Anggota</a>
+        <a href="#gallery" class="block py-3 hover:text-orange-500">Galeri</a>
+        <a href="#countdown" class="block py-3 hover:text-orange-500"
+          >Countdown</a
+        >
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="pt-20 bg-gradient-to-b from-orange-100 to-orange-50"
+    >
+      <div class="container mx-auto px-4 py-16">
+        <div class="text-center">
+          <img
+            src="img/PKK2.png"
+            alt="Foto Grup"
+            class="rounded-lg shadow-xl mx-auto mb-3 hero-image"
+          />
+          <h1 class="text-4xl md:text-6xl font-bold text-orange-600 mb-4">
+            Selamat Datang di Kemith
+          </h1>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Tempat Perkumpulam Para Member Yang setia hadir setiap hari di kedai
+            kita. Di sini, kami berbagi cerita, canda, dan kebersamaan yang tak
+            terlupakan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profiles Section -->
+    <section id="anggota" class="py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-orange-600">
+          Anggota
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Profile Card 1 Nur Saeful Anwar -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/ipul.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Nur Saeful Anwar</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1D</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 06 Maret 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Makan</li>
+                  <li>Main</li>
+                  <li>Bobok</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Uang Bukan Segalanya, Tapi Segalanya Butuh Uang
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 2 Mohammad Haris Tri Nugraha -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/haris.jpg"
+              alt="Anggota 2"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Mohammad Haris Tri Nugraha</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 19 Tahun</li>
+                  <li>Tanggal lahir : 18 September 2005/li></li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Olahraga</li>
+                  <li>Game</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Coba aja dulu, Kalo ga coba tar gabisa bisa
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Mizan Fadli Anwar -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/mizan.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Mizan Fadli Anwar</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 19 Tahun</li>
+                  <li>Tanggal lahir : 17 Juli 2005</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Mencari Relasi</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Kekuatan terbentuk, ketika berhasil melawan keraguan
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Diyan -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/dayen.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Diyan</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Jurusan : RPL 1C</li>
+                  <li>Usia : 19 Tahun</li>
+                  <li>Tanggal lahir : 26 Agustus 2005</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Coding</li>
+                  <li>Coding</li>
+                  <li>Hts</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm"></p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Reinayla Ph -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/rei.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Reinayla Amaria Ph</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 17 Tahun</li>
+                  <li>Tanggal lahir : 22 February 2007</li>
+                  <li>Kota Asal : Cirebon</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Joget</li>
+                  <li>Ketawa</li>
+                  <li>Main</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Selagi Masih Hidup Jalanin Aja
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Syifa Awaliyah -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/syifa.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Syifa Awaliyah</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1C</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 10 September 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Joget</li>
+                  <li>Makan</li>
+                  <li>Make Up</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Kalo Yang Lain Bisa Kenapa Harus Saya
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Dhiva franciscia -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/dipa.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Dhiva franciscia</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 17 Tahun</li>
+                  <li>Tanggal lahir : 04 Desember 2007</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Tidur</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Hidup ini seperti melukis, jadilah seniman pribadimu
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Dewi Septi Yunida -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/nida.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Dewi Septi Yunida</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 02 Juni 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Tidur</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Hidup untuk sukses, sukses dari hidup
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1  Diajeng Ayu Pramesti  -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/ajeng.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Diajeng Ayu Pramesti</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1A</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 29 Maret 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Makan</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  get up, get out and go get it done
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Adelita Nur Mu'izah Aprilia -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/adel.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">
+                Adelita Nur Mu'izah Aprilia
+              </h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1C</li>
+                  <li>Usia : 17 Tahun</li>
+                  <li>Tanggal lahir : 05 April 2007</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Tidur</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Sukses berawal dari mimpi, oleh karna itu kita harus perbanyak
+                  tidur
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Hafizh Nur Ziryab -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/hafiz.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Hafizh Nur Ziryab</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1D</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 31 Oktober 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Olahraga</li>
+                  <li>Game</li>
+                  <li>Tidur</li>
+                  <li>Ngelamun</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">Yang Penting Hidup</p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Syahrul Hannan Ramdhani  -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/syarul.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Syahrul Hannan Ramdhani</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1C</li>
+                  <li>Usia : 19 Tahun</li>
+                  <li>Tanggal lahir : 13 oktober 2005</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Free Fire</li>
+                  <li>Game</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">Cobain Kalo Belum Dicoba</p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1  KHUSNUL KHOTIMAH (KAHA)
+  -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/kaha.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">KHUSNUL KHOTIMAH (KAHA)</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1B</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 11 Maret 2006</li>
+                  <li>Kota Asal : Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Olahraga</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">Takut hidup, mati sekalian</p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1 Teguh Ngudiyono  -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/teguh.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Teguh Ngudiyono</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1D</li>
+                  <li>Usia : 19 Tahun</li>
+                  <li>Tanggal lahir : 28 Desember 2005</li>
+                  <li>Kota Asal :Cirebon</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Badminton</li>
+                  <li>Game</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Terus berjuang dan jangan menyerah demi orang yang kita
+                  sayangi
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1  Ramadhan Sanjaya -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/rama.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Ramadhan Sanjaya</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1C</li>
+                  <li>Usia : 21 Tahun</li>
+                  <li>Tanggal lahir : 04 November 2003</li>
+                  <li>Kota Asal :Cirebon</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Running</li>
+                  <li>Mendengar musik</li>
+                  <li>Belajar hal baru setiap hari</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Membangun Kerajaan dengan ibu sebagai Ratunya.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1  Nova Nisa Nindika -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/nova.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Nova Nisa Nindika</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1C</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 15 agustus 2006</li>
+                  <li>Kota Asal :Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Hidup</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Cukup jadikan dirimu lebih baik dari hari kemarin.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Card 1  Alyaziya Zannatun Nisa -->
+          <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src="img/nisa.jpg"
+              alt="Anggota 1"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Alyaziya Zannatun Nisa</h3>
+              <div class="mb-4">
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Kelas : RPL 1A</li>
+                  <li>Usia : 18 Tahun</li>
+                  <li>Tanggal lahir : 07 Februari 2006</li>
+                  <li>Kota Asal :Indramayu</li>
+                </ul>
+              </div>
+              <div class="mb-4">
+                <h4 class="font-semibold mb-1">Hobi:</h4>
+                <ul
+                  class="list-disc list-inside text-gray-600 text-sm space-y-1"
+                >
+                  <li>Olahraga</li>
+                  <li>Nyanyi</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Motto Hidup :</h4>
+                <p class="text-gray-600 text-sm">
+                  Belajar tidak membuat bodoh akan terlihat bodoh ketika
+                  mencintai dia, mari belajar dan lupakan dia
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-orange-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-orange-600">
+          Galeri Kenangan
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <!-- Gallery Item 1 -->
+          <div class="relative group">
+            <img
+              src="img/1.jpg"
+              alt="Kenangan 1"
+              class="w-full h-64 object-cover rounded-lg"
+            />
+            <div
+              class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center"
+            >
+              <div class="text-white text-center p-4">
+                <p class="font-semibold mb-2">after Uts</p>
+                <button
+                  class="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600"
+                >
+                  Unduh
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ulang Tahun Mendatang Section -->
+    <section id="countdown" class="py-16 bg-orange-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold text-orange-600 mb-12">
+          Ulang Tahun Mendatang
+        </h2>
+        <div class="max-w-md mx-auto birthday-card">
+          <img
+            id="birthdayImage"
+            src=""
+            alt="Foto Ulang Tahun"
+            class="mx-auto mb-4"
+          />
+          <h3
+            id="birthdayName"
+            class="text-2xl font-semibold text-white mb-2"
+          ></h3>
+          <div class="grid grid-cols-4 gap-4 mt-4">
+            <div class="countdown-item">
+              <span id="days">0</span><span class="text-sm">Hari</span>
+            </div>
+            <div class="countdown-item">
+              <span id="hours">0</span><span class="text-sm">Jam</span>
+            </div>
+            <div class="countdown-item">
+              <span id="minutes">0</span><span class="text-sm">Menit</span>
+            </div>
+            <div class="countdown-item">
+              <span id="seconds">0</span><span class="text-sm">Detik</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="blur-circle blur-circle-1"></div>
+      <div class="blur-circle blur-circle-2"></div>
+      <div class="blur-circle blur-circle-3"></div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="brand">
+            <h2>KEMITH</h2>
+            <p>
+              Dibuat dengan untuk persahabatan kita. Bersama menciptakan
+              kenangan indah dan membuat setiap momen menjadi berarti.
+            </p>
+          </div>
+
+          <div class="navigation">
+            <div class="nav-group">
+              <h3>Navigasi</h3>
+              <div class="nav-links">
+                <a href="#home">Beranda</a>
+                <a href="#anggota">Anggota</a>
+                <a href="#gallery">Galeri</a>
+                <a href="#countdown">Countdown</a>
+              </div>
+            </div>
+
+            <div class="nav-group">
+              <h3>Legal</h3>
+              <div class="nav-links">
+                <a href="#">Privasi</a>
+                <a href="#">Ketentuan</a>
+                <a href="#">FAQ</a>
+              </div>
+            </div>
+
+            <div class="nav-group">
+              <h3>Sosial Media</h3>
+              <div class="social-links">
+                <a
+                  href="https://www.instagram.com/gaskempul?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                  ><i class="fab fa-instagram"></i
+                ></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2024 KEMITH. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!--  Font Awesome  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <script>
+      // Toggle mobile menu
+      function toggleMenu() {
+        const mobileMenu = document.getElementById("mobileMenu");
+        const isDesktop = window.innerWidth >= 768; // Periksa lebar layar
+
+        if (isDesktop) {
+          // Jika di desktop, jangan tampilkan menu atau tombol
+          mobileMenu.classList.remove("active");
+          document.querySelector(".toggle-btn").classList.remove("active");
+        } else {
+          // Jika di perangkat mobile, lakukan toggle seperti biasa
+          mobileMenu.classList.toggle("active");
+          document.querySelector(".toggle-btn").classList.toggle("active");
+        }
+      }
+
+      // Tombol Scroll ke Atas
+      const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+      window.onscroll = function () {
+        if (
+          document.body.scrollTop > 300 ||
+          document.documentElement.scrollTop > 300
+        ) {
+          scrollToTopBtn.style.display = "flex";
+        } else {
+          scrollToTopBtn.style.display = "none";
+        }
+      };
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      // Smooth scrolling untuk navigasi
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Data anggota dengan nama, foto, dan tanggal lahir
+      const members = [
+        { name: "Nur Saeful Anwar", birthday: "03-06", image: "img/ipul.jpg" },
+        {
+          name: "Mohammad Haris Tri Nugraha",
+          birthday: "09-25",
+          image: "img/haris.jpg",
+        },
+        {
+          name: "Mizan Fadli Anwar",
+          birthday: "10-14",
+          image: "img/mizan.jpg",
+        },
+        { name: "Diyan", birthday: "08-26", image: "img/diyan.jpg" },
+        { name: "Dhiva Franciscia", birthday: "12-04", image: "img/dipa.jpg" },
+        { name: "Reinayla Ph", birthday: "02-22", image: "img/rei.jpg" },
+        { name: "Syifa Awaliyah", birthday: "09-10", image: "img/syifa.jpg" },
+        { name: "Dewi Septi Yunida", birthday: "06-02", image: "img/nida.jpg" },
+        {
+          name: "Diajeng Ayu Pramesti",
+          birthday: "03-29",
+          image: "img/ajeng.jpg",
+        },
+        {
+          name: "Adelita Nur Mu'izah Aprilia",
+          birthday: "04-05",
+          image: "img/adel.jpg",
+        },
+        {
+          name: "Hafizh Nur Ziryab",
+          birthday: "10-31",
+          image: "img/hafiz.jpg",
+        },
+        {
+          name: "Syahrul Hannan Ramdhani",
+          birthday: "10-13",
+          image: "img/syarul.jpg",
+        },
+        {
+          name: "KhusnuL Khotimah (KAHA)",
+          birthday: "03-11",
+          image: "img/kaha.jpg",
+        },
+        { name: "Teguh Ngudiyono", birthday: "12-28", image: "img/teguh.jpg" },
+        { name: "Ramadhan Sanjaya", birthday: "11-04", image: "img/rama.jpg" },
+        { name: "Nova Nisa Nindika", birthday: "08-15", image: "img/nova.jpg" },
+        {
+          name: "Alyaziya Zannatun Nisa",
+          birthday: "02-07",
+          image: "img/nisa.jpg",
+        },
+      ];
+
+      // Fungsi untuk menemukan anggota dengan ulang tahun berikutnya
+      function getNextBirthday() {
+        const today = new Date();
+        let nearestBirthday = null;
+        let minTimeDifference = Infinity;
+
+        members.forEach((member) => {
+          const [month, day] = member.birthday.split("-").map(Number);
+          const birthdayThisYear = new Date(
+            today.getFullYear(),
+            month - 1,
+            day
+          );
+
+          // Jika ulang tahun sudah lewat tahun ini, periksa tahun berikutnya
+          if (birthdayThisYear < today) {
+            birthdayThisYear.setFullYear(today.getFullYear() + 1);
+          }
+
+          const timeDifference = birthdayThisYear - today;
+
+          if (timeDifference < minTimeDifference) {
+            minTimeDifference = timeDifference;
+            nearestBirthday = { ...member, date: birthdayThisYear };
+          }
+        });
+
+        return nearestBirthday;
+      }
+
+      // Fungsi countdown
+      function startCountdown() {
+        const nextBirthday = getNextBirthday();
+        if (!nextBirthday) return;
+
+        document.getElementById("birthdayName").innerText = nextBirthday.name;
+        document.getElementById("birthdayImage").src = nextBirthday.image;
+
+        const countdown = setInterval(() => {
+          const now = new Date();
+          const distance = nextBirthday.date - now;
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          document.getElementById("days").innerText = days;
+          document.getElementById("hours").innerText = hours;
+          document.getElementById("minutes").innerText = minutes;
+          document.getElementById("seconds").innerText = seconds;
+
+          if (distance < 0) {
+            clearInterval(countdown);
+            document.getElementById("days").innerText = "0";
+            document.getElementById("hours").innerText = "0";
+            document.getElementById("minutes").innerText = "0";
+            document.getElementById("seconds").innerText = "0";
+            alert("Selamat Ulang Tahun untuk " + nextBirthday.name + "!");
+          }
+        }, 1000);
+      }
+
+      // Memulai countdown
+      startCountdown();
+
+      // Sembunyikan layar loading setelah halaman selesai dimuat
+      window.addEventListener("load", function () {
+        const loadingScreen = document.getElementById("loadingScreen");
+        loadingScreen.style.opacity = 0;
+        setTimeout(() => {
+          loadingScreen.style.display = "none";
+        }, 500); // Waktu sesuai durasi transisi
+      });
+    </script>
+  </body>
+</html>
